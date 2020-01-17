@@ -1,3 +1,24 @@
+
+# React Token Base Web Auth Starter Code
+
+Welcome to the README for some easy starter code to get your React
+app going with user authentication with JWT.
+
+## Instructions
+- After cloning this project and installing the dependencies, you will need to add a ".env" file in the root directory and add the following:
+
+    - `DATABASE_URL=\<Your Database URL>`
+
+    - `SECRET=\<Your String of Choice>`
+- Then in terminal:
+    - `$ npm run build`
+- Then open two different terminals and run each of the below separately
+    - `$ nodemon server`
+    - `$ npm run build`
+
+The world is now your oyster. Go for it, you amazing developer!
+
+# All That Jazz from React
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
