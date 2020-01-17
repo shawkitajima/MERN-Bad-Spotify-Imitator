@@ -1,5 +1,5 @@
 
-# React Token Base Web Auth Starter Code
+# React Token Based Web Auth Starter Code
 
 Welcome to the README for some easy starter code to get your React
 app going with user authentication with JWT.
