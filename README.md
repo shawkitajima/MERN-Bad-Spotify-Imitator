@@ -1,7 +1,7 @@
 
 # React Token Based Web Auth Starter Code
 
-Welcome to the README for some easy starter code to get your React
+Welcome to the README for some easy starter code to get your MERN
 app going with user authentication with JWT.
 
 ## Instructions
