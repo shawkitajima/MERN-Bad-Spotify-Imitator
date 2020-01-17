@@ -14,7 +14,7 @@ app going with user authentication with JWT.
     - `$ npm run build`
 - Then open two different terminals and run each of the below separately
     - `$ nodemon server`
-    - `$ npm run build`
+    - `$ npm start`
 
 The world is now your oyster. Go for it, you amazing developer!
 
