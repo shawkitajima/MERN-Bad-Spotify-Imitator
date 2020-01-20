@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
+import userService from '../../utils/userService';
+import spotifyService from '../../utils/spotifyService';
 import './App.css';
 import SignupPage from '../SignupPage/SignupPage';
 import LoginPage from '../LoginPage/LoginPage';
-import userService from '../../utils/userService';
-import NavBar from '../../components/NavBar/NavBar';
+import WelcomePage from '../WelcomePage/WelcomePage';
+import UserPage from '../UserPage/UserPage';
 
 class App extends Component {
   constructor() {
@@ -23,24 +25,30 @@ class App extends Component {
   handleSignupOrLogin = () => {
     this.setState({user: userService.getUser()})
   }
+
+  handleSpotifyLogin = () => {
+    spotifyService.login(this.state.user._id)
+  }
   /*--- Lifecycle Methods ---*/
 
   render() {
     return (
       <div>
-        <NavBar 
-        user={this.state.user} 
-        handleLogout={this.handleLogout}
-        />
         <Switch>
-          <Route exact path='/' render={() =>
-           <div>Hello World!</div> 
+          <Route exact path='/' render={() => (
+            userService.getUser() ?
+            <UserPage 
+              user={this.state.user} 
+              handleLogout={this.handleLogout}
+            />
+            :
+           <Redirect to='/welcome' />
+          )
           }/>
           <Route exact path='/signup' render={({ history }) => 
             <SignupPage
               history={history}
               handleSignupOrLogin={this.handleSignupOrLogin}
-              
             />
           }/>
           <Route exact path='/login' render={({history}) => 
@@ -48,6 +56,9 @@ class App extends Component {
               history={history}
               handleSignupOrLogin={this.handleSignupOrLogin}
             />
+          }/>
+          <Route exact path='/welcome' render={() => 
+            <WelcomePage/>
           }/>
         </Switch>
       </div>

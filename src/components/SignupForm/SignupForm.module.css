@@ -1,0 +1,12 @@
+.formContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: 'Handlee', cursive;
+  }
+
+.header {
+    font-size: 5rem;
+    color: #188029;
+    margin-bottom: 4rem;
+}

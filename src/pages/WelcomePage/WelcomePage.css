@@ -1,0 +1,58 @@
+@import url('https://fonts.googleapis.com/css?family=Handlee|Open+Sans&display=swap');
+
+body {
+    font-family: 'Handlee', cursive;
+    font-weight: 900;
+}
+
+.WelcomePagecontainer {
+    position: relative;
+    width: 100%;
+}
+
+
+.WelcomePagecontainer img {
+    background-position: center;
+    width: 100%;
+    height: 100%;
+}
+
+.WelcomePagecontainer .WelcomePagebutton-container {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    top: 65%;
+    left: 5%;
+    font-family: 'Handlee', cursive;
+}
+
+.WelcomePagecontainer .WelcomePagewelcome {
+    position: absolute;
+    top: 25%;
+    left: 5%;
+    font-size: 5rem;
+    color: #188029;
+}
+
+.WelcomePagebtn {
+    color: white;
+    font-family: 'Handlee', cursive;
+    font-weight: 500;
+    background-color: #188029;
+    width: 20rem;
+    height: 3rem;
+    border: 4px solid black;
+    font-size: 1rem;
+}
+
+.WelcomePageor {
+    color: white;
+    margin: 2rem;
+    font-size: 2rem;
+
+}
+
+.WelcomePagebtn:hover {
+    color: black;
+    cursor: pointer;
+}

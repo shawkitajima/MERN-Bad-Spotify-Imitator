@@ -1,0 +1,38 @@
+
+.container {
+  position: relative;
+  width: 100%;
+}
+
+.container img {
+  background-position: 25%, 20%;
+  width: 100%;
+  height: 60%;
+}
+
+.header {
+  font-size: 5rem;
+  color: #188029;
+  margin-bottom: 4rem;
+}
+
+.container .formContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  top: 15%;
+  left: 10%;
+  font-family: 'Handlee', cursive;
+}
+
+input {
+  width: 20rem;
+  height: 2rem;
+  margin-bottom: 2rem;
+}
+
+button {
+  width: 6  rem;
+  height: 2rem;
+}
