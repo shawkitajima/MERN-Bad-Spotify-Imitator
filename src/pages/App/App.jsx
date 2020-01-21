@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route, Switch, Redirect } from 'react-router-dom';
+import { Route, Switch, Redirect, BrowserRouter as Router } from 'react-router-dom';
 import userService from '../../utils/userService';
 import spotifyService from '../../utils/spotifyService';
 import './App.css';
@@ -37,10 +37,10 @@ class App extends Component {
         <Switch>
           <Route exact path='/' render={() => (
             userService.getUser() ?
-            <UserPage 
+            <Router><UserPage 
               user={this.state.user} 
               handleLogout={this.handleLogout}
-            />
+            /></Router>
             :
            <Redirect to='/welcome' />
           )

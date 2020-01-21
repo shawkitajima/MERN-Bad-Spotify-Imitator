@@ -4,7 +4,8 @@ module.exports = {
     login,
     getTracks,
     refresh,
-    getPlaylists
+    getPlaylists,
+    getPlaylistDetail,
 }
 
 function login(user) {
@@ -23,4 +24,8 @@ function getTracks(user) {
 
 function getPlaylists(user) {
     return fetch(BASE_URL + 'playlists/' + user).then(res => res.json())
+}
+
+function getPlaylistDetail(user, playlist) {
+    return fetch(BASE_URL + 'playlists/' + user + '/' + playlist).then(res => res.json())
 }

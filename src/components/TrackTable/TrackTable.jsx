@@ -1,17 +1,8 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import styles from './TrackTable.module.css';
 import TrackTableItem from '../TrackTableItem/TrackTableItem';
-import spotifyService from '../../utils/spotifyService';
 
 const TrackTable = props => {
-    
-    const [tracks, setTracks] = useState([]);
-
-    useEffect(() => {
-        spotifyService.getTracks(props.user._id).then(res => 
-            setTracks(res.tracks))
-    }, [])
-
     return (
         <>
             <table>
@@ -24,7 +15,7 @@ const TrackTable = props => {
                 </tr>
                 </thead>
                 <tbody>
-                    {tracks.map((track, idx) => <TrackTableItem 
+                    {props.tracks.map((track, idx) => <TrackTableItem 
                         title={track.track}
                         artist={track.artist}
                         album={track.album}
