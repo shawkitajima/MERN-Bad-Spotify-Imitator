@@ -8,30 +8,47 @@ import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import SongPage from '../SongPage/SongPage';
-import PlaylistPage from '../PlaylistPage/PlaylistPage'
+import PlaylistPage from '../PlaylistPage/PlaylistPage';
+import AlbumPage from '../AlbumPage/AlbumPage';
 import spotifyService from '../../utils/spotifyService';
+import NavBar from '../../components/NavBar/NavBar';
+import AlbumDetailPage from '../AlbumDetailPage/AlbumDetailPage';
+import './UserPage.css';
 
-const drawerWidth = 240;
+const drawerWidth = 250;
 
 const useStyles = makeStyles(theme => ({
+    body: {
+      backgroundColor: '#181818',
+      color: 'white'
+    },
     root: {
       display: 'flex',
+      backgroundColor: '#181818',
+      color: 'white'
     },
     appBar: {
       width: `calc(100% - ${drawerWidth}px)`,
       marginLeft: drawerWidth,
+      backgroundColor: '#181818',
+      color: 'white'
     },
     drawer: {
       width: drawerWidth,
       flexShrink: 0,
+      backgroundColor: '#181818',
+      color: 'white'
     },
     drawerPaper: {
       width: drawerWidth,
+      backgroundColor: '#181818',
+      color: 'white'
     },
     toolbar: theme.mixins.toolbar,
     content: {
       flexGrow: 1,
-      backgroundColor: theme.palette.background.default,
+      backgroundColor: '#282828',
+      color: 'white',
       padding: theme.spacing(3),
     },
   }));
@@ -39,16 +56,22 @@ const useStyles = makeStyles(theme => ({
 const UserPage = (props) => {
     const classes = useStyles();
     const [playlists, setPlaylists] = useState([]);
+    const [devices, setDevices] = useState([{id: '', name: ''}]);
+    const [activeDevice, setActiveDevice] = useState('');
 
     useEffect(() => {
         spotifyService.refresh(props.user._id)
             
         spotifyService.getPlaylists(props.user._id).then(res => 
             setPlaylists(res.playlists))
-    }, [props.user._id])
+          
+        spotifyService.getAvailableDevices(props.user._id).then(res => setDevices(res.devices))
+
+        setActiveDevice(devices[0].id);
+    }, [props.user])
 
     return (
-        <div className={classes.root}>
+        <div className={classes.root} >
         <CssBaseline />
         <Drawer
           className={classes.drawer}
@@ -60,6 +83,20 @@ const UserPage = (props) => {
         >
           <div className={classes.toolbar}/>
           <List >
+              <ListItem >
+                < NavBar
+                  user={props.user}
+                  handleLogout={props.handleLogout}
+                 />
+              </ListItem>
+              <ListItem>
+                Select Your Device: <select onChange={evt => setActiveDevice(evt.target.value)}>
+                  <option>...</option>
+                  {devices.map((device, idx) => (
+                    <option key={idx} value={device.id}>{device.name}</option>
+                  ))}
+                </select>
+              </ListItem>
               <ListItem button component={Link} to="/">
                 <ListItemText primary='Songs' />
               </ListItem>
@@ -82,11 +119,19 @@ const UserPage = (props) => {
         <main className={classes.content}>
             <Switch>
                 <Route exact path='/' render={() => (
-                    <SongPage user={props.user} />
+                    <SongPage user={props.user} device={activeDevice} />
                 )
                 }/>
                 <Route exact path='/playlistDetail' render={({history}) => (
-                    < PlaylistPage user={props.user} history={history} />
+                    < PlaylistPage user={props.user} history={history} device={activeDevice} />
+                )
+                }/>
+                <Route exact path='/albums' render={() => (
+                  < AlbumPage user={props.user} device={activeDevice} />
+                  )
+                }/>
+                <Route exact path='/albumDetail' render={({history}) => (
+                    < AlbumDetailPage user={props.user} history={history} device={activeDevice} />
                 )
                 }/>
             </Switch>

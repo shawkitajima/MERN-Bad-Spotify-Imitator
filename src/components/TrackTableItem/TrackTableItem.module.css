@@ -1,0 +1,12 @@
+.playIcon {
+    height: 35%;
+    width: 35%
+}
+
+.playIcon:hover {
+    cursor: pointer;
+}
+
+tr:hover {
+    background-color: #333333;
+}

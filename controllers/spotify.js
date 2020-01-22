@@ -11,11 +11,13 @@ module.exports = {
   getAlbumDetail,
   getPlaylists,
   getPlaylistDetail,
-  getTopTracks
+  getTopTracks,
+  play,
+  getAvailableDevices
 };
 
 function login(req, res) {
-    const scopes = 'streaming playlist-modify-public playlist-read-private user-library-read user-modify-playback-state user-top-read';
+    const scopes = 'streaming playlist-modify-public playlist-read-private user-library-read user-modify-playback-state user-top-read user-read-playback-state user-library-modify';
     res.redirect('https://accounts.spotify.com/authorize' +
         '?response_type=code' +
         '&client_id=' + process.env.SPOTIFY_CLIENT_ID +
@@ -284,3 +286,61 @@ function getTopTracks(req, res) {
     })
 }
 
+function play(req, res) {
+    User.findById(req.params.id, function(err, user) {
+        const access_token = user.spotifyToken;
+        const headers = {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + access_token
+        };
+        
+        const dataString = `{"uris":["${req.params.trackId}"],"position_ms":"0"}`;
+        
+        var options = {
+            url: `https://api.spotify.com/v1/me/player/play?device_id=${req.params.deviceId}`,
+            method: 'PUT',
+            headers: headers,
+            body: dataString
+        };
+        
+        function callback(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                console.log(body)
+                res.send(body);
+            }
+        }
+        request(options, callback);
+    })
+}
+
+function getAvailableDevices(req, res) {
+    let devices = [];
+    User.findById(req.params.id, function(err, user) {
+        const access_token = user.spotifyToken;
+        const headers = {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + access_token 
+        };
+        const options = {
+            url: 'https://api.spotify.com/v1/me/player/devices',
+            headers: headers
+        };
+        function callback(error, response, body) {
+            if (error) console.log(error);
+            console.log(response);
+            if (!error && response.statusCode == 200) {
+                let parsed = JSON.parse(body);
+                parsed.devices.forEach(device => {
+                    devices.push({
+                        id: device.id,
+                        name: device.name
+                    });
+                });
+                res.send({devices});
+            }
+        }
+        request(options, callback);
+    });
+}

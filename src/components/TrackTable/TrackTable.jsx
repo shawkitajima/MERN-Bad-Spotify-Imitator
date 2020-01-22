@@ -8,6 +8,7 @@ const TrackTable = props => {
             <table>
                 <thead>
                 <tr>
+                    <th></th>
                     <th>Title</th>
                     <th>Artist</th>
                     <th>Album</th>
@@ -21,6 +22,9 @@ const TrackTable = props => {
                         album={track.album}
                         length={track.length}
                         key={idx}
+                        uri={track.uri}
+                        user={props.user}
+                        device={props.device}
                     />)}
                 </tbody>
             </table>

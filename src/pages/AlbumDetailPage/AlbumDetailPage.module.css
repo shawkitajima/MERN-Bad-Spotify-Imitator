@@ -1,0 +1,19 @@
+.horiFlex {
+    display: flex;
+    margin-bottom: 4rem;
+}
+
+.vertiFlex {
+    display: flex;
+    flex-direction: column;
+    align-items: space-evenly;
+}
+
+.push {
+    margin-left: 4rem;
+}
+
+img {
+    height: 15rem;
+    width: 15rem;
+}

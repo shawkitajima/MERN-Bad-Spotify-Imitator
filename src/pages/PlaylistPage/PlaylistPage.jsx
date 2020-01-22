@@ -23,7 +23,7 @@ const PlaylistPage = props => {
                     <h2>{details.playlist.count} songs | {formatTime(Math.floor(details.playlist.length / 1000 / 60))}</h2>
                 </div>
             </div>
-            <TrackTable tracks={details.tracks} />
+            <TrackTable tracks={details.tracks} user={props.user} device={props.device} />
         </>
     )
 }

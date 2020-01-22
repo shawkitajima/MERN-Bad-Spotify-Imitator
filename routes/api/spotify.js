@@ -10,7 +10,9 @@ router.get('/albums/:id', spotifyCtrl.getAlbums);
 router.get('/albums/:id/:albumId', spotifyCtrl.getAlbumDetail)
 router.get('/playlists/:id', spotifyCtrl.getPlaylists);
 router.get('/playlists/:id/:playlistId', spotifyCtrl.getPlaylistDetail);
+router.get('/play/:id/:trackId/:deviceId', spotifyCtrl.play);
 router.get('/top/:id', spotifyCtrl.getTopTracks);
+router.get('/devices/:id', spotifyCtrl.getAvailableDevices);
 router.get('/callback', spotifyCtrl.callback);
 
 /*---------- Protected Routes ----------*/
