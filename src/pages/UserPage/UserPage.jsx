@@ -102,7 +102,7 @@ const UserPage = (props) => {
                   ))}
                 </select>
               </ListItem>
-              <ListItem button component={Link} to="/">
+              <ListItem button component={Link} onClick={props.handleUserUpdate} to="/">
                 <ListItemText primary='Songs' />
               </ListItem>
               <ListItem button component={Link} to="/albums">
