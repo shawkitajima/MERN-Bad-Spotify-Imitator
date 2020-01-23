@@ -16,6 +16,7 @@ import AlbumDetailPage from '../AlbumDetailPage/AlbumDetailPage';
 import SpotifyLoginPage from '../SpotifyLoginPage/SpotifyLoginPage';
 
 import './UserPage.css';
+import userService from '../../utils/userService';
 
 const drawerWidth = 250;
 
@@ -63,6 +64,7 @@ const UserPage = (props) => {
 
     useEffect(() => {
         spotifyService.refresh(props.user._id).then(res => {
+          console.log(userService.getUser());
           props.handleUserUpdate()
         })
             
@@ -102,7 +104,7 @@ const UserPage = (props) => {
                   ))}
                 </select>
               </ListItem>
-              <ListItem button component={Link} onClick={props.handleUserUpdate} to="/">
+              <ListItem button component={Link} to="/">
                 <ListItemText primary='Songs' />
               </ListItem>
               <ListItem button component={Link} to="/albums">
