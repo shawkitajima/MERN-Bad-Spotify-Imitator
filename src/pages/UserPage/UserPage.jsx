@@ -70,6 +70,7 @@ const UserPage = (props) => {
         spotifyService.getAvailableDevices(props.user._id).then(res => setDevices(res.devices))
 
         setActiveDevice(devices[0].id);
+
     }, [props.user])
 
     return (

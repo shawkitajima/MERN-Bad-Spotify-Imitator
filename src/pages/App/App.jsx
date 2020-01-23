@@ -29,7 +29,12 @@ class App extends Component {
   handleSpotifyLogin = () => {
     spotifyService.login(this.state.user._id)
   }
+
   /*--- Lifecycle Methods ---*/
+
+componentDidMount() {
+  this.setState({user: userService.getUser()});
+}
 
   render() {
     return (
