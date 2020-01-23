@@ -14,6 +14,7 @@ import spotifyService from '../../utils/spotifyService';
 import NavBar from '../../components/NavBar/NavBar';
 import AlbumDetailPage from '../AlbumDetailPage/AlbumDetailPage';
 import SpotifyLoginPage from '../SpotifyLoginPage/SpotifyLoginPage';
+import userService from '../../utils/userService';
 
 import './UserPage.css';
 
@@ -71,7 +72,10 @@ const UserPage = (props) => {
 
         setActiveDevice(devices[0].id);
 
-    }, [props.user])
+        let newUser = userService.getUser();
+        props.handleUserUpdate(newUser);
+
+    }, [props.user._id])
 
     return (
         <div className={classes.root} >

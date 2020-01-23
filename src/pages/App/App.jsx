@@ -30,6 +30,10 @@ class App extends Component {
     spotifyService.login(this.state.user._id)
   }
 
+  handleUserUpdate = newUser => {
+    this.setState({user: newUser});
+  }
+
   /*--- Lifecycle Methods ---*/
 
 componentDidUpdate() {
@@ -45,6 +49,7 @@ componentDidUpdate() {
             <Router><UserPage 
               user={this.state.user} 
               handleLogout={this.handleLogout}
+              handleUserUpdate={this.handleUserUpdate}
             /></Router>
             :
            <Redirect to='/welcome' />
