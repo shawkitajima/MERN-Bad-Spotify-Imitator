@@ -14,7 +14,6 @@ import spotifyService from '../../utils/spotifyService';
 import NavBar from '../../components/NavBar/NavBar';
 import AlbumDetailPage from '../AlbumDetailPage/AlbumDetailPage';
 import SpotifyLoginPage from '../SpotifyLoginPage/SpotifyLoginPage';
-import userService from '../../utils/userService';
 
 import './UserPage.css';
 
@@ -64,8 +63,7 @@ const UserPage = (props) => {
 
     useEffect(() => {
         spotifyService.refresh(props.user._id).then(res => {
-          let newUser = userService.getUser();
-          props.handleUserUpdate(newUser)
+          props.handleUserUpdate()
         })
             
         spotifyService.getPlaylists(props.user._id).then(res => 
