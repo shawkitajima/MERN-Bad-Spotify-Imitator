@@ -36,9 +36,6 @@ class App extends Component {
 
   /*--- Lifecycle Methods ---*/
 
-componentDidUpdate() {
-  this.setState({user: userService.getUser()});
-}
 
   render() {
     return (
