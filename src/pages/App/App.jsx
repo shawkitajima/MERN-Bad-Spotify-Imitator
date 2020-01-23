@@ -32,7 +32,7 @@ class App extends Component {
 
   /*--- Lifecycle Methods ---*/
 
-componentDidMount() {
+componentDidUpdate() {
   this.setState({user: userService.getUser()});
 }
 
