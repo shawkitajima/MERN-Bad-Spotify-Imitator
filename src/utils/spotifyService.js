@@ -1,4 +1,5 @@
 const BASE_URL = '/api/spotify/';
+const axios = require('axios');
 
 module.exports = {
     login,
@@ -13,9 +14,10 @@ module.exports = {
 }
 
 function login(user) {
-    return fetch(BASE_URL + 'login/' + user).then(res => {
-        console.log(res);
-    })
+    return axios.get(BASE_URL + "login/" + user).then(res => console.log(res)).catch(e => console.log("ERROR ", e))
+    // return fetch(BASE_URL + 'login/' + user).then(res => {
+    //     console.log(res);
+    // })
 }
 
 function refresh(user) {

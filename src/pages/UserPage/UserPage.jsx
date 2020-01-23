@@ -13,6 +13,8 @@ import AlbumPage from '../AlbumPage/AlbumPage';
 import spotifyService from '../../utils/spotifyService';
 import NavBar from '../../components/NavBar/NavBar';
 import AlbumDetailPage from '../AlbumDetailPage/AlbumDetailPage';
+import SpotifyLoginPage from '../SpotifyLoginPage/SpotifyLoginPage';
+
 import './UserPage.css';
 
 const drawerWidth = 250;
@@ -119,7 +121,10 @@ const UserPage = (props) => {
         <main className={classes.content}>
             <Switch>
                 <Route exact path='/' render={() => (
+                  props.user.spotifyToken ?
                     <SongPage user={props.user} device={activeDevice} />
+                    :
+                    <SpotifyLoginPage user={props.user} />
                 )
                 }/>
                 <Route exact path='/playlistDetail' render={({history}) => (

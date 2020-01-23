@@ -1,6 +1,8 @@
 const User = require('../models/user');
 const jwt = require('jsonwebtoken');
-const request = require('request') 
+const request = require('request');
+const querystring = require('querystring');
+ 
 
 module.exports = {
   login,
@@ -18,11 +20,14 @@ module.exports = {
 
 function login(req, res) {
     const scopes = 'streaming playlist-modify-public playlist-read-private user-library-read user-modify-playback-state user-top-read user-read-playback-state user-library-modify';
-    res.redirect('https://accounts.spotify.com/authorize' +
-        '?response_type=code' +
-        '&client_id=' + process.env.SPOTIFY_CLIENT_ID +
-        (scopes ? '&scope=' + encodeURIComponent(scopes) : '') +
-        '&redirect_uri=' + encodeURIComponent(process.env.SPOTIFY_CALLBACK) + '&state=' + req.params.id);
+    res.redirect('https://accounts.spotify.com/authorize?' +
+    querystring.stringify({
+      response_type: 'code',
+      client_id: process.env.SPOTIFY_CLIENT_ID,
+      scope: scopes,
+      redirect_uri: process.env.SPOTIFY_CALLBACK,
+      state: req.params.id
+    }));
 };
 
 function callback(req, res) {
