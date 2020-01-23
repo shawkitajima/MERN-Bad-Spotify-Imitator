@@ -72,8 +72,8 @@ const UserPage = (props) => {
 
         setActiveDevice(devices[0].id);
 
-        let newUser = userService.getUser();
-        props.handleUserUpdate(newUser);
+        // let newUser = userService.getUser();
+        // props.handleUserUpdate(newUser);
 
     }, [props.user._id])
 
