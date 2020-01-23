@@ -78,17 +78,16 @@ function refresh(req, res) {
                 if (!err && response.statusCode === 200) {
                     let spotifyToken = body.access_token;
                     let tokenExpiration = body.expires_in * 1000 + Date.now();
-                    User.findByIdAndUpdate(user.id, {spotifyToken, tokenExpiration}, function(err, updatedUser) {
+                    User.findByIdAndUpdate(user.id, {spotifyToken, tokenExpiration}, {new: true}, function(err, updatedUser) {
                         return res.send({
-                            'access_token': body.access_token,
-                            'tokenExpiration': body.expires_in * 1000 + Date.now()
+                            user: updatedUser
                         });
                     })
                 }
             })
         }
         else {
-            return res.send({'message': 'no need to refresh'})
+            return res.send({user})
         }
     })
 }

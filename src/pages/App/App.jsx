@@ -30,8 +30,8 @@ class App extends Component {
     spotifyService.login(this.state.user._id)
   }
 
-  handleUserUpdate = () => {
-    this.setState({user: userService.getUser()});
+  handleUserUpdate = (data) => {
+    this.setState({user: data});
   }
 
   /*--- Lifecycle Methods ---*/

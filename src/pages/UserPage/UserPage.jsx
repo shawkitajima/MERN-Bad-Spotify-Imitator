@@ -64,10 +64,8 @@ const UserPage = (props) => {
 
     useEffect(() => {
         spotifyService.refresh(props.user._id).then(res => {
-          console.log(userService.getUser());
-          props.handleUserUpdate()
+          res.json().then(data => props.handleUserUpdate(data.user)) 
         })
-            
         spotifyService.getPlaylists(props.user._id).then(res => 
             setPlaylists(res.playlists))
           
