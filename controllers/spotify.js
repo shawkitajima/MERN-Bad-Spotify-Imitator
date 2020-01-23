@@ -56,7 +56,7 @@ function callback(req, res) {
         let accessToken = body.access_token;
         let refreshToken = body.refresh_token;
         User.findByIdAndUpdate(id, {spotifyToken: accessToken, spotifyRefresh: refreshToken, tokenExpiration}, function(err, user) {
-            res.send({status: 'okay'});
+            res.redirect('/');
         })
     })
 }
