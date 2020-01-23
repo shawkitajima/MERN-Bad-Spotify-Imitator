@@ -63,7 +63,10 @@ const UserPage = (props) => {
     const [activeDevice, setActiveDevice] = useState('');
 
     useEffect(() => {
-        spotifyService.refresh(props.user._id)
+        spotifyService.refresh(props.user._id).then(res => {
+          let newUser = userService.getUser();
+          props.handleUserUpdate(newUser)
+        })
             
         spotifyService.getPlaylists(props.user._id).then(res => 
             setPlaylists(res.playlists))
@@ -71,9 +74,6 @@ const UserPage = (props) => {
         spotifyService.getAvailableDevices(props.user._id).then(res => setDevices(res.devices))
 
         setActiveDevice(devices[0].id);
-
-        // let newUser = userService.getUser();
-        // props.handleUserUpdate(newUser);
 
     }, [props.user._id])
 
