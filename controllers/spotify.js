@@ -378,9 +378,9 @@ function makeCommunityPlaylist(req, res) {
                     })
                     let tracksSet = new Set(tracks);
                     let allTracks = [...tracksSet];
-                    let sliced = allTracks.slice(0, 30);
-                    let shuffled = shuffle(sliced);
-                    addTracks(user.spotifyToken, parsed.id, shuffled, function(err, tracks) {
+                    let shuffled = shuffle(allTracks);
+                    let sliced = shuffled.slice(0, 30);
+                    addTracks(user.spotifyToken, parsed.id, sliced, function(err, tracks) {
                         if (err) console.log(err)
                         res.send({tracks});
                     });
