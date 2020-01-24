@@ -71,6 +71,8 @@ const UserPage = (props) => {
 
         setActiveDevice(devices[0].id);
 
+        spotifyService.getTopTracks(props.user._id)
+
     }, [props.user._id])
 
     return (

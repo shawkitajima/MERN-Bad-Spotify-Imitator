@@ -4,6 +4,7 @@ const axios = require('axios');
 module.exports = {
     login,
     getTracks,
+    getTopTracks,
     refresh,
     getPlaylists,
     getPlaylistDetail,
@@ -16,9 +17,6 @@ module.exports = {
 
 function login(user) {
     return axios.get(BASE_URL + "login/" + user).then(res => console.log(res)).catch(e => console.log("ERROR ", e))
-    // return fetch(BASE_URL + 'login/' + user).then(res => {
-    //     console.log(res);
-    // })
 }
 
 function refresh(user) {
@@ -27,6 +25,10 @@ function refresh(user) {
 
 function getTracks(user) {
     return fetch(BASE_URL + 'tracks/' + user).then(res => res.json())
+}
+
+function getTopTracks(user) {
+    return fetch(BASE_URL + 'top/' + user).then(res => res.json())
 }
 
 function getPlaylists(user) {
