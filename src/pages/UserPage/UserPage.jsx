@@ -14,9 +14,7 @@ import spotifyService from '../../utils/spotifyService';
 import NavBar from '../../components/NavBar/NavBar';
 import AlbumDetailPage from '../AlbumDetailPage/AlbumDetailPage';
 import SpotifyLoginPage from '../SpotifyLoginPage/SpotifyLoginPage';
-
 import './UserPage.css';
-import userService from '../../utils/userService';
 
 const drawerWidth = 250;
 
@@ -108,7 +106,7 @@ const UserPage = (props) => {
               <ListItem button component={Link} to="/albums">
                 <ListItemText primary='Albums' />
               </ListItem>
-              <ListItem button onClick={spotifyService.makePlaylist(props.user._id)}>
+              <ListItem button onClick={() => spotifyService.makePlaylist(props.user._id)}>
                 <ListItemText primary='Make Community Playlist' />
               </ListItem>
           </List>
