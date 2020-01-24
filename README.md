@@ -1,89 +1,33 @@
 
-# React Token Based Web Auth Starter Code
+# Bad Spotify Imitator
+The Bad Spotify imitator is a web application that allows Spotify Premium subscribers to look at different aspects of their Spotify library, and also play songs from any of their available devices. 
 
-Welcome to the README for some easy starter code to get your MERN
-app going with user authentication with JWT.
+![Welcome](welcome.png)
 
-## Instructions
-- After cloning this project and installing the dependencies, you will need to add a ".env" file in the root directory and add the following:
+![Library](library.png)
 
-    - `DATABASE_URL=\<Your Database URL>`
+![Albums](albums.png)
 
-    - `SECRET=\<Your String of Choice>`
-- Then in terminal:
-    - `$ npm run build`
-- Then open two different terminals and run each of the below separately
-    - `$ nodemon server`
-    - `$ npm start`
+![Deatils](details.png)
 
-The world is now your oyster. Go for it, you amazing developer!
+## Technologies Used
+- MongoDB hosted on mongoDB with Mongoose for queries and updates
+- Express
+- React
+- NodeJS
+- JWT for user authentication
+- Heroku for web deployment
+- The Spotify API
 
-# All That Jazz from React
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Getting Started
+Please go to the deployed application at https://bad-spotify-imitator.herokuapp.com/
 
-## Available Scripts
+This service is only available to Spotify Premium subscribers. If you are one, you will need to create an account with this application, and grant us authorization to access your account. One of the funner features of this application is creating the community playlist - a playlist that randomly selects thirty songs from all of the application's users' top played tracks. 
 
-In the project directory, you can run:
+If you would like to play songs, you will need to select an available device to play the song from. You can do this via the menu input on the left hand side. Once a device has been selected, the play button next to each song will start the song.
 
-### `npm start`
-
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+## Next Steps
+- Allow users to search for songs/albums/artists/playlists
+- Allow users to edit their playlists and library
+- Allow users to queue songs for playback
+- Allow users to view fun statistics about their libraries
