@@ -3,6 +3,13 @@ const jwt = require('jsonwebtoken');
 const request = require('request');
 const querystring = require('querystring');
  
+function todaysDate() {
+    let currentTime = new Date()
+    let month = currentTime.getMonth() + 1
+    let day = currentTime.getDate()
+    let year = currentTime.getFullYear()
+    return `${year}-${month}-${day}`
+}
 
 module.exports = {
   login,
@@ -15,11 +22,12 @@ module.exports = {
   getPlaylistDetail,
   getTopTracks,
   play,
-  getAvailableDevices
+  getAvailableDevices,
+  makeCommunityPlaylist
 };
 
 function login(req, res) {
-    const scopes = 'streaming playlist-modify-public playlist-read-private user-library-read user-modify-playback-state user-top-read user-read-playback-state user-library-modify';
+    const scopes = 'streaming playlist-modify-private playlist-modify-public playlist-read-private user-library-read user-modify-playback-state user-top-read user-read-playback-state user-library-modify user-read-email user-read-private';
     res.redirect('https://accounts.spotify.com/authorize?' +
     querystring.stringify({
       response_type: 'code',
@@ -346,4 +354,74 @@ function getAvailableDevices(req, res) {
         }
         request(options, callback);
     });
+}
+
+function makeCommunityPlaylist(req, res) {
+    User.findById(req.params.id, function(err, user) {
+        getUserDetails(user.spotifyToken, function(err, response) {
+            let parsed = JSON.parse(response.body);
+            initializePlaylist(user.spotifyToken, parsed.id, function(err, playlist) {
+                if (err) console.log(err);
+                let parsed = JSON.parse(playlist.body);
+                let tracks = [];
+                User.find({}, function(err, users) {
+                    users.forEach(user => {
+                        tracks = tracks.concat(user.topTracks)
+                    })
+                    let tracksSet = new Set(tracks);
+                    let allTracks = [...tracksSet];
+                    let sliced = allTracks.slice(0, 29);
+                    addTracks(user.spotifyToken, parsed.id, sliced, function(err, tracks) {
+                        if (err) console.log(err)
+                        res.send({tracks});
+                    });
+                });
+            });
+        });        
+    });
+}
+
+function getUserDetails(token, callback) {
+    const headers = {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token 
+    };
+    const options = {
+        url: 'https://api.spotify.com/v1/me',
+        headers: headers
+    };
+    request(options, callback);
+}
+
+function initializePlaylist(token, id, callback) {
+    const headers = {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' +  token
+    };
+    
+    const dataString = `{"name":"Our Community Playlist ${todaysDate()}","description":"A fun playlist made by our community","public":false}`;
+    
+    const options = {
+        url: `https://api.spotify.com/v1/users/${id}/playlists`,
+        method: 'POST',
+        headers: headers,
+        body: dataString
+    };
+    request(options, callback);
+}
+
+function addTracks(token, id, uris, callback) {
+    const headers = {
+        'Authorization': 'Bearer ' + token,
+        'Accept': 'application/json'
+    };
+    const options = {
+        url: `https://api.spotify.com/v1/playlists/${id}/tracks`,
+        method: 'POST',
+        headers: headers,
+        form: JSON.stringify({uris: uris})
+    };
+    request(options, callback);
 }

@@ -108,6 +108,9 @@ const UserPage = (props) => {
               <ListItem button component={Link} to="/albums">
                 <ListItemText primary='Albums' />
               </ListItem>
+              <ListItem button onClick={spotifyService.makePlaylist(props.user._id)}>
+                <ListItemText primary='Make Community Playlist' />
+              </ListItem>
           </List>
           <Divider />
           <List>

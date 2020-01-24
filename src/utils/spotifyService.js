@@ -10,7 +10,8 @@ module.exports = {
     getAlbums,
     getAlbumDetail,
     play,
-    getAvailableDevices
+    getAvailableDevices,
+    makePlaylist
 }
 
 function login(user) {
@@ -50,5 +51,9 @@ function play(user, track, device) {
 
 function getAvailableDevices(user) {
     return fetch(BASE_URL + 'devices/' + user).then(res => res.json());
+}
+
+function makePlaylist(user) {
+    return fetch(BASE_URL + 'makeplaylist/' + user).then(res => res.json());
 }
 
