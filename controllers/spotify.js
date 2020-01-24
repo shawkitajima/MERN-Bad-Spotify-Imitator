@@ -11,6 +11,14 @@ function todaysDate() {
     return `${year}-${month}-${day}`
 }
 
+function shuffle(a) {
+    for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+}
+
 module.exports = {
   login,
   callback,
@@ -370,8 +378,9 @@ function makeCommunityPlaylist(req, res) {
                     })
                     let tracksSet = new Set(tracks);
                     let allTracks = [...tracksSet];
-                    let sliced = allTracks.slice(0, 29);
-                    addTracks(user.spotifyToken, parsed.id, sliced, function(err, tracks) {
+                    let sliced = allTracks.slice(0, 30);
+                    let shuffled = shuffle(sliced);
+                    addTracks(user.spotifyToken, parsed.id, shuffled, function(err, tracks) {
                         if (err) console.log(err)
                         res.send({tracks});
                     });
