@@ -12,7 +12,8 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      user: userService.getUser()
+      user: userService.getUser(),
+      refresh: false
     };
   }
 
@@ -33,6 +34,7 @@ class App extends Component {
   handleUserUpdate = (data) => {
     this.setState({user: data});
   }
+
 
   /*--- Lifecycle Methods ---*/
 

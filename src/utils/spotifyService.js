@@ -15,7 +15,8 @@ module.exports = {
     getAvailableDevices,
     addTrackToLibrary,
     deleteTrackFromLibrary,
-    makePlaylist
+    makePlaylist,
+    addToPlaylist
 }
 
 function login(user) {
@@ -74,3 +75,6 @@ function makePlaylist(user) {
     return fetch(BASE_URL + 'makeplaylist/' + user).then(res => res.json());
 }
 
+function addToPlaylist(user, playlistId, trackId) {
+    return fetch(BASE_URL + 'playlists/add/' + user + '/' + playlistId + '/' + trackId).then(res => res.json());
+}

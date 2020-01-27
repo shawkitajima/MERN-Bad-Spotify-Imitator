@@ -34,7 +34,8 @@ module.exports = {
   getAvailableDevices,
   addTrackToLibrary,
   deleteTrackFromLibrary,
-  makeCommunityPlaylist
+  makeCommunityPlaylist,
+  addTracksToPlaylist
 };
 
 function login(req, res) {
@@ -261,7 +262,8 @@ function getPlaylists(req, res) {
                         title: playlist.name,
                         id: playlist.id,
                         img: playlist.images[0].url,
-                        owner: playlist.owner.display_name    
+                        owner: playlist.owner.display_name,
+                        ownerId: playlist.owner.id,    
                     })
                 })
                 res.send({playlists});
@@ -492,4 +494,13 @@ function addTracks(token, id, uris, callback) {
         form: JSON.stringify({uris: uris})
     };
     request(options, callback);
+}
+
+function addTracksToPlaylist(req, res) {
+    User.findById(req.params.id, function(err, user) {
+        addTracks(user.spotifyToken, req.params.playlistId, [req.params.trackId], function(err, tracks) {
+            if (err) console.log(err);
+            res.send({message: tracks})
+        });
+    });
 }

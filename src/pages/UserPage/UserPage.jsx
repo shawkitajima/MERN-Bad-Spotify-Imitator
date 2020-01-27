@@ -14,6 +14,7 @@ import spotifyService from '../../utils/spotifyService';
 import NavBar from '../../components/NavBar/NavBar';
 import AlbumDetailPage from '../AlbumDetailPage/AlbumDetailPage';
 import SpotifyLoginPage from '../SpotifyLoginPage/SpotifyLoginPage';
+import PlaylistSelector from '../../components/PlaylistSelector/PlaylistSelector'
 import './UserPage.css';
 
 const drawerWidth = 250;
@@ -112,6 +113,9 @@ const UserPage = (props) => {
               <ListItem button component={Link} to="/albums">
                 <ListItemText primary='Albums' />
               </ListItem>
+              <ListItem button component={Link} to="/myPlaylists">
+                <ListItemText primary='My Playlists' />
+              </ListItem>
               <ListItem button onClick={() => spotifyService.makePlaylist(props.user._id)}>
                 <ListItemText primary='Make Community Playlist' />
               </ListItem>
@@ -132,7 +136,7 @@ const UserPage = (props) => {
             <Switch>
                 <Route exact path='/' render={() => (
                   props.user.spotifyToken ?
-                    <SongPage user={props.user} device={activeDevice} src={'songs'} />
+                    <SongPage user={props.user} device={activeDevice} src={'songs'} handlePageUpdate={props.handlePageUpdate}  />
                     :
                     <SpotifyLoginPage user={props.user} />
                 )
@@ -147,6 +151,10 @@ const UserPage = (props) => {
                 }/>
                 <Route exact path='/albumDetail' render={({history}) => (
                     < AlbumDetailPage user={props.user} history={history} device={activeDevice} />
+                )
+                }/>
+                <Route exact path='/myPlaylists' render={({history}) => (
+                    < PlaylistSelector user={props.user} history={history} />
                 )
                 }/>
             </Switch>
