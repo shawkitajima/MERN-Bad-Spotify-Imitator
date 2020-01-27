@@ -9,6 +9,7 @@ const userSchema = new mongoose.Schema({
   spotifyToken: String,
   spotifyRefresh: String,
   tokenExpiration: Number,
+  spotifyId: String,
   topTracks: Array,
 }, {
   timestamps: true

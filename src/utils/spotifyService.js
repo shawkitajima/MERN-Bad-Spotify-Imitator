@@ -6,12 +6,14 @@ module.exports = {
     getTracks,
     getTopTracks,
     refresh,
+    getUserId,
     getPlaylists,
     getPlaylistDetail,
     getAlbums,
     getAlbumDetail,
     play,
     getAvailableDevices,
+    addTrackToLibrary,
     makePlaylist
 }
 
@@ -21,6 +23,10 @@ function login(user) {
 
 function refresh(user) {
     return fetch(BASE_URL + 'refresh/' + user).then(res => res)
+}
+
+function getUserId(user) {
+    return fetch(BASE_URL + 'me/' + user).then(res => res.json())
 }
 
 function getTracks(user) {
@@ -53,6 +59,10 @@ function play(user, track, device) {
 
 function getAvailableDevices(user) {
     return fetch(BASE_URL + 'devices/' + user).then(res => res.json());
+}
+
+function addTrackToLibrary(user, trackId) {
+    return fetch(BASE_URL + 'devices/' + user + '/' + trackId).then(res => res.json());
 }
 
 function makePlaylist(user) {

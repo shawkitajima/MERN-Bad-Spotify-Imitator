@@ -64,8 +64,12 @@ const UserPage = (props) => {
         spotifyService.refresh(props.user._id).then(res => {
           res.json().then(data => props.handleUserUpdate(data.user)) 
         })
+
+        spotifyService.getUserId(props.user._id).then(res => 
+          props.handleUserUpdate(res.user))
+
         spotifyService.getPlaylists(props.user._id).then(res => 
-            setPlaylists(res.playlists))
+          setPlaylists(res.playlists))
           
         spotifyService.getAvailableDevices(props.user._id).then(res => setDevices(res.devices))
 

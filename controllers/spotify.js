@@ -23,6 +23,7 @@ module.exports = {
   login,
   callback,
   refresh,
+  getUserId,
   getTracks,
   getAlbums,
   getAlbumDetail,
@@ -31,6 +32,7 @@ module.exports = {
   getTopTracks,
   play,
   getAvailableDevices,
+  addTrackToLibrary,
   makeCommunityPlaylist
 };
 
@@ -108,6 +110,31 @@ function refresh(req, res) {
     })
 }
 
+function getUserId(req, res) {
+    User.findById(req.params.id, function(err, user) {
+        const access_token = user.spotifyToken;
+        const headers = {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + access_token 
+        };
+        const options = {
+            url: 'https://api.spotify.com/v1/me',
+            headers: headers
+        };
+        function callback(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                let parsed = JSON.parse(body);
+                let spotifyId = parsed.id;
+                User.findByIdAndUpdate(user.id, {spotifyId}, {new: true}, function(err, updatedUser) {
+                    res.send({user: updatedUser});
+                })
+            }
+        }
+        request(options, callback);        
+    })
+}
+
 function getTracks(req, res) {
     let tracks = [];
     User.findById(req.params.id, function(err, user) {
@@ -131,6 +158,7 @@ function getTracks(req, res) {
                         album: track.track.album.name,
                         length: track.track.duration_ms,
                         uri: track.track.uri,
+                        trackId: track.track.id
                     })
                 })
                 res.send({tracks})
@@ -161,7 +189,7 @@ function getAlbums(req, res) {
                         title: album.album.name,
                         artist: album.album.artists.map(artist => artist.name).join(', '),
                         img: album.album.images[0].url,
-                        id: album.album.id
+                        id: album.album.id,
                     })
                 })
                 res.send({albums})
@@ -194,7 +222,8 @@ function getAlbumDetail(req, res) {
                         artist: track.artists.map(artist => artist.name).join(', '),
                         album: parsed.name,
                         length: track.duration_ms,
-                        uri: track.uri
+                        uri: track.uri,
+                        trackId: track.id
                     })
                 })
                 album.img = parsed.images[0].url; 
@@ -265,7 +294,8 @@ function getPlaylistDetail(req, res) {
                         artist: track.track.artists.map(artist => artist.name).join(', '),
                         album: track.track.album.name,
                         length: track.track.duration_ms,
-                        uri: track.track.uri
+                        uri: track.track.uri,
+                        trackId: track.track.id
                     })
                 })
                 playlist.count = tracks.length;
@@ -364,43 +394,50 @@ function getAvailableDevices(req, res) {
     });
 }
 
-function makeCommunityPlaylist(req, res) {
+function addTrackToLibrary(req, res) {
     User.findById(req.params.id, function(err, user) {
-        getUserDetails(user.spotifyToken, function(err, response) {
-            let parsed = JSON.parse(response.body);
-            initializePlaylist(user.spotifyToken, parsed.id, function(err, playlist) {
-                if (err) console.log(err);
-                let parsed = JSON.parse(playlist.body);
-                let tracks = [];
-                User.find({}, function(err, users) {
-                    users.forEach(user => {
-                        tracks = tracks.concat(user.topTracks)
-                    })
-                    let tracksSet = new Set(tracks);
-                    let allTracks = [...tracksSet];
-                    let shuffled = shuffle(allTracks);
-                    let sliced = shuffled.slice(0, 30);
-                    addTracks(user.spotifyToken, parsed.id, sliced, function(err, tracks) {
-                        if (err) console.log(err)
-                        res.send({tracks});
-                    });
-                });
-            });
-        });        
-    });
+        const headers = {
+            'Authorization': `Bearer ${user.spotifyToken}`,
+            'Content-Type': 'application/json'
+        };
+        
+        const options = {
+            url: `https://api.spotify.com/v1/me/tracks?ids=${req.params.trackId}`,
+            method: 'PUT',
+            headers: headers,
+        };
+        
+        function callback(error, response) {
+            if (!error && response.statusCode == 200) {
+                res.send({message: 'all done'})
+            }
+        }
+        request(options, callback);
+    })
+    
 }
 
-function getUserDetails(token, callback) {
-    const headers = {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + token 
-    };
-    const options = {
-        url: 'https://api.spotify.com/v1/me',
-        headers: headers
-    };
-    request(options, callback);
+function makeCommunityPlaylist(req, res) {
+    User.findById(req.params.id, function(err, user) {
+        initializePlaylist(user.spotifyToken, user.spotifyId, function(err, playlist) {
+            if (err) console.log(err);
+            let parsed = JSON.parse(playlist.body);
+            let tracks = [];
+            User.find({}, function(err, users) {
+                users.forEach(user => {
+                    tracks = tracks.concat(user.topTracks)
+                })
+                let tracksSet = new Set(tracks);
+                let allTracks = [...tracksSet];
+                let shuffled = shuffle(allTracks);
+                let sliced = shuffled.slice(0, 30);
+                addTracks(user.spotifyToken, parsed.id, sliced, function(err, tracks) {
+                    if (err) console.log(err)
+                    res.send({tracks});
+                });
+            });
+        });  
+    });
 }
 
 function initializePlaylist(token, id, callback) {
@@ -434,3 +471,4 @@ function addTracks(token, id, uris, callback) {
     };
     request(options, callback);
 }
+
