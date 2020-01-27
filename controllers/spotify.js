@@ -33,6 +33,7 @@ module.exports = {
   play,
   getAvailableDevices,
   addTrackToLibrary,
+  deleteTrackFromLibrary,
   makeCommunityPlaylist
 };
 
@@ -413,8 +414,29 @@ function addTrackToLibrary(req, res) {
             }
         }
         request(options, callback);
-    })
-    
+    }) 
+}
+
+function deleteTrackFromLibrary(req, res) {
+    User.findById(req.params.id, function(err, user) {
+        const headers = {
+            'Authorization': `Bearer ${user.spotifyToken}`,
+            'Content-Type': 'application/json'
+        };
+        
+        const options = {
+            url: `https://api.spotify.com/v1/me/tracks?ids=${req.params.trackId}`,
+            method: 'DELETE',
+            headers: headers,
+        };
+        
+        function callback(error, response) {
+            if (!error && response.statusCode == 200) {
+                res.send({message: 'all done'})
+            }
+        }
+        request(options, callback);
+    }) 
 }
 
 function makeCommunityPlaylist(req, res) {
@@ -471,4 +493,3 @@ function addTracks(token, id, uris, callback) {
     };
     request(options, callback);
 }
-

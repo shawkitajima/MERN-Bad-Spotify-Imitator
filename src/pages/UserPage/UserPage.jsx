@@ -132,7 +132,7 @@ const UserPage = (props) => {
             <Switch>
                 <Route exact path='/' render={() => (
                   props.user.spotifyToken ?
-                    <SongPage user={props.user} device={activeDevice} />
+                    <SongPage user={props.user} device={activeDevice} src={'songs'} />
                     :
                     <SpotifyLoginPage user={props.user} />
                 )

@@ -13,7 +13,7 @@ const SongPage = props => {
     return (
         <>
             <h1>Your Saved Songs</h1>
-            <TrackTable tracks={tracks} user={props.user} device={props.device} />
+            <TrackTable tracks={tracks} user={props.user} device={props.device} src={props.src} />
         </>
     )
 }
