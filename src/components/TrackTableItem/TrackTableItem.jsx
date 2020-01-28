@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router-dom'
 import spotifyService from '../../utils/spotifyService';
 import PlaylistSelector from '../../components/PlaylistSelector/PlaylistSelector';
 import { formatTime } from '../../utils/utilities';
@@ -59,7 +60,17 @@ const TrackTableItem = props => {
         </td>
         <td>{props.title}</td>
         <td>{props.artist}</td>
-        <td>{props.album}</td>
+        <td>
+            <Link 
+                to={{
+                    pathname: '/albumDetail',
+                    album: props.albumId
+                }}
+                style={{color: 'white'}}
+            >
+                {props.album}
+            </Link>
+        </td>
         <td>{time}</td>
     </tr>
     )

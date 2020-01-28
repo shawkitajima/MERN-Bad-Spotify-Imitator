@@ -16,7 +16,8 @@ module.exports = {
     addTrackToLibrary,
     deleteTrackFromLibrary,
     makePlaylist,
-    addToPlaylist
+    addToPlaylist,
+    search,
 }
 
 function login(user) {
@@ -77,4 +78,8 @@ function makePlaylist(user) {
 
 function addToPlaylist(user, playlistId, trackId) {
     return fetch(BASE_URL + 'playlists/add/' + user + '/' + playlistId + '/' + trackId).then(res => res.json());
+}
+
+function search(user, search) {
+    return fetch(BASE_URL + 'search/' + user + '/' + search).then(res => res.json());
 }

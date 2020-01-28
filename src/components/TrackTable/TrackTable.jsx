@@ -20,6 +20,7 @@ const TrackTable = props => {
                         title={track.track}
                         artist={track.artist}
                         album={track.album}
+                        albumId={track.albumId}
                         length={track.length}
                         key={idx}
                         uri={track.uri}

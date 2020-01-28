@@ -35,7 +35,8 @@ module.exports = {
   addTrackToLibrary,
   deleteTrackFromLibrary,
   makeCommunityPlaylist,
-  addTracksToPlaylist
+  addTracksToPlaylist,
+  search,
 };
 
 function login(req, res) {
@@ -160,7 +161,8 @@ function getTracks(req, res) {
                         album: track.track.album.name,
                         length: track.track.duration_ms,
                         uri: track.track.uri,
-                        trackId: track.track.id
+                        trackId: track.track.id,
+                        albumId: track.track.album.id,
                     })
                 })
                 res.send({tracks})
@@ -298,7 +300,8 @@ function getPlaylistDetail(req, res) {
                         album: track.track.album.name,
                         length: track.track.duration_ms,
                         uri: track.track.uri,
-                        trackId: track.track.id
+                        trackId: track.track.id,
+                        albumId: track.track.album.id
                     })
                 })
                 playlist.count = tracks.length;
@@ -503,4 +506,93 @@ function addTracksToPlaylist(req, res) {
             res.send({message: tracks})
         });
     });
+}
+
+function search(req, res) {
+    let playlists = [];
+    User.findById(req.params.id, function(err,user) {
+        const headers = {
+            'Authorization': `Bearer ${user.spotifyToken}`,
+            'Content-Type': 'application/json'
+        };
+        
+        const options = {
+            url: `https://api.spotify.com/v1/search?q=${req.params.search}&type=album,artist,playlist,track`,
+            method: 'GET',
+            headers: headers,
+        };
+        
+        function callback(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                parsed = JSON.parse(body);
+                let albums = parseAlbumSearch(parsed);
+                let artists = parseArtistSearch(parsed);
+                let tracks = parseTrackSearch(parsed);
+                let playlists = parsePlaylistSearch(parsed);
+                res.send({albums, artists, tracks, playlists});
+            }
+        }
+        request(options, callback);
+    })
+}
+
+// Utility Functions
+
+function parseAlbumSearch(parsed) {
+    let albums = [];
+    parsed.albums.items.forEach(album => {
+        albums.push({
+            title: album.name,
+            artist: album.artists.map(artist => artist.name).join(', '),
+            img: album.images[0].url,
+            id: album.id,
+            uri: album.uri
+        });
+    });
+    return albums;
+}
+
+function parseArtistSearch(parsed) {
+    let artists = [];
+    parsed.artists.items.forEach(artist => {
+        artists.push({
+            name: artist.name,
+            id: artist.id,
+            img: artist.images[0] ? artist.images[0].url : null,
+            uri: artist.uri,
+        });
+    });
+    return artists;
+}
+
+
+function parseTrackSearch(parsed) {
+    let tracks = [];
+    parsed.tracks.items.forEach(track => {
+        tracks.push({
+            track: track.name,
+            artist: track.artists.map(artist => artist.name).join(', '),
+            album: track.album.name,
+            length: track.duration_ms,
+            uri: track.uri,
+            trackId: track.id,
+            albumId: track.album.id
+        });
+    });
+    return tracks;
+}
+
+function parsePlaylistSearch(parsed) {
+    let playlists = [];
+    parsed.playlists.items.forEach(playlist => {
+        playlists.push({
+            title: playlist.name,
+            id: playlist.id,
+            img: playlist.images[0] ? playlist.images[0].url : null,
+            owner: playlist.owner.display_name,
+            ownerId: playlist.owner.id,
+            uri: playlist.uri,
+        })
+    })
+    return playlists
 }

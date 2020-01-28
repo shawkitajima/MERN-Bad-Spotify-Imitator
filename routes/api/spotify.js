@@ -18,6 +18,7 @@ router.get('/add/:id/:trackId', spotifyCtrl.addTrackToLibrary);
 router.get('/delete/:id/:trackId', spotifyCtrl.deleteTrackFromLibrary);
 router.get('/devices/:id', spotifyCtrl.getAvailableDevices);
 router.get('/makeplaylist/:id', spotifyCtrl.makeCommunityPlaylist);
+router.get('/search/:id/:search', spotifyCtrl.search);
 router.get('/callback', spotifyCtrl.callback);
 
 /*---------- Protected Routes ----------*/

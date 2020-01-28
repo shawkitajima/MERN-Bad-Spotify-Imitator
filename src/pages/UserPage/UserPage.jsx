@@ -7,6 +7,8 @@ import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
 import SongPage from '../SongPage/SongPage';
 import PlaylistPage from '../PlaylistPage/PlaylistPage';
 import AlbumPage from '../AlbumPage/AlbumPage';
@@ -14,7 +16,7 @@ import spotifyService from '../../utils/spotifyService';
 import NavBar from '../../components/NavBar/NavBar';
 import AlbumDetailPage from '../AlbumDetailPage/AlbumDetailPage';
 import SpotifyLoginPage from '../SpotifyLoginPage/SpotifyLoginPage';
-import PlaylistSelector from '../../components/PlaylistSelector/PlaylistSelector'
+import SearchPage from '../SearchPage/SearchPage';
 import './UserPage.css';
 
 const drawerWidth = 250;
@@ -60,6 +62,7 @@ const UserPage = (props) => {
     const [playlists, setPlaylists] = useState([]);
     const [devices, setDevices] = useState([{id: '', name: ''}]);
     const [activeDevice, setActiveDevice] = useState('');
+    const [search, setSearch] = useState('');
 
     useEffect(() => {
         spotifyService.refresh(props.user._id).then(res => {
@@ -99,6 +102,13 @@ const UserPage = (props) => {
                   handleLogout={props.handleLogout}
                  />
               </ListItem>
+              <ListItem >
+                <TextField 
+                  id="outlined-basic" label="search..." variant="outlined" 
+                  onChange={evt => setSearch(evt.target.value)}
+                />
+                <Link to='/search'><Button variant="contained" color="transparent">Go</Button></Link>
+              </ListItem>
               <ListItem>
                 Select Your Device: <select onChange={evt => setActiveDevice(evt.target.value)}>
                   <option>...</option>
@@ -112,9 +122,6 @@ const UserPage = (props) => {
               </ListItem>
               <ListItem button component={Link} to="/albums">
                 <ListItemText primary='Albums' />
-              </ListItem>
-              <ListItem button component={Link} to="/myPlaylists">
-                <ListItemText primary='My Playlists' />
               </ListItem>
               <ListItem button onClick={() => spotifyService.makePlaylist(props.user._id)}>
                 <ListItemText primary='Make Community Playlist' />
@@ -153,8 +160,8 @@ const UserPage = (props) => {
                     < AlbumDetailPage user={props.user} history={history} device={activeDevice} />
                 )
                 }/>
-                <Route exact path='/myPlaylists' render={({history}) => (
-                    < PlaylistSelector user={props.user} history={history} />
+                <Route exact path='/search' render={({history}) => (
+                    < SearchPage user={props.user} history={history} search={search} device={activeDevice} />
                 )
                 }/>
             </Switch>
