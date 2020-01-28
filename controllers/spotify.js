@@ -37,6 +37,9 @@ module.exports = {
   makeCommunityPlaylist,
   addTracksToPlaylist,
   search,
+  getArtistAlbums,
+  getArtistTopTracks,
+  getArtistDetails
 };
 
 function login(req, res) {
@@ -535,6 +538,108 @@ function search(req, res) {
         request(options, callback);
     })
 }
+
+function getArtistAlbums(req, res) {
+    User.findById(req.params.id, function(err, user) {
+        const headers = {
+            'Authorization': `Bearer ${user.spotifyToken}`,
+            'Content-Type': 'application/json'
+        };
+        
+        const options = {
+            url: `https://api.spotify.com/v1/artists/${req.params.artistId}/albums?include_groups=album,single`,
+            method: 'GET',
+            headers: headers,
+        };
+        
+        function callback(error, response, body) {
+            let albums = [];
+            let unique = [];
+            if (!error && response.statusCode == 200) {
+                parsed = JSON.parse(body);
+                parsed.items.forEach(album => {
+                    if (!unique.includes(album.name)) {
+                        albums.push({
+                            title: album.name,
+                            artist: album.artists.map(artist => artist.name).join(', '),
+                            img: album.images[0].url,
+                            id: album.id,
+                            uri: album.uri
+                        });
+                    }
+                    unique.push(album.name);
+                });
+                res.send({albums});
+            }
+        }
+        request(options, callback);
+    })
+}
+
+function getArtistTopTracks(req, res) {
+    let tracks = [];
+    User.findById(req.params.id, function(err, user) {
+        const headers = {
+            'Authorization': `Bearer ${user.spotifyToken}`,
+            'Content-Type': 'application/json'
+        };
+        
+        const options = {
+            url: `https://api.spotify.com/v1/artists/${req.params.artistId}/top-tracks?country=from_token`,
+            method: 'GET',
+            headers: headers,
+        };
+        
+        function callback(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                parsed = JSON.parse(body);
+                parsed.tracks.forEach(track => {
+                    tracks.push({
+                        track: track.name,
+                        artist: track.artists.map(artist => artist.name).join(', '),
+                        album: track.album.name,
+                        length: track.duration_ms,
+                        uri: track.uri,
+                        trackId: track.id,
+                        albumId: track.album.id
+                    })
+                })
+                res.send({tracks});
+            }
+        }
+        request(options, callback);
+    });
+}
+
+function getArtistDetails(req, res) {
+    let artist = {};
+    User.findById(req.params.id, function(err, user) {
+        const headers = {
+            'Authorization': `Bearer ${user.spotifyToken}`,
+            'Content-Type': 'application/json'
+        };
+        
+        const options = {
+            url: `https://api.spotify.com/v1/artists/${req.params.artistId}`,
+            method: 'GET',
+            headers: headers,
+        };
+        
+        function callback(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                parsed = JSON.parse(body);
+                artist.name = parsed.name;
+                artist.uri = parsed.uri;
+                artist.id = parsed.id;
+                artist.img = parsed.images[0] ? parsed.images[0].url : null;
+                res.send({artist});
+            }
+        }
+        request(options, callback);
+    });
+}
+
+
 
 // Utility Functions
 
