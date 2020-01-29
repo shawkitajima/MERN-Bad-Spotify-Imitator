@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {Link} from 'react-router-dom'
 import spotifyService from '../../utils/spotifyService';
 import PlaylistSelector from '../../components/PlaylistSelector/PlaylistSelector';
@@ -10,9 +10,15 @@ import MenuItem from '@material-ui/core/MenuItem';
 const TrackTableItem = props => {
     let time = formatTime(Math.floor(props.length / 1000))
 
-    const [anchorEl, setAnchorEl] = React.useState(null);
+    const [anchorEl, setAnchorEl] = useState(null);
 
-    const [show, setShow] = React.useState(false)
+    const [contains, setContains] = useState(false);
+
+    const [show, setShow] = useState(false)
+
+    useEffect(() => {
+        spotifyService.checkLibrary(props.user._id, props.trackId).then(res => setContains(res.contained))
+    }, [props.user._id]);
 
     const handleClick = event => {
       setAnchorEl(event.currentTarget);
@@ -38,7 +44,7 @@ const TrackTableItem = props => {
                         spotifyService.play(props.user._id, props.uri, props.device);
                         handleClose();
                     }}>Play</MenuItem>
-                {props.src ? (
+                {contains ? (
                     <MenuItem onClick={() => {
                         spotifyService.deleteTrackFromLibrary(props.user._id, props.trackId);
                     }}>Remove From Library</MenuItem>

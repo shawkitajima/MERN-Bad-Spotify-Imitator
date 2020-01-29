@@ -27,7 +27,6 @@ const TrackTable = props => {
                         uri={track.uri}
                         trackId={track.trackId}
                         user={props.user}
-                        src={props.src}
                         device={props.device}
                     />)}
                 </tbody>

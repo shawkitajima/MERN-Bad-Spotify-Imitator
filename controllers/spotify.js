@@ -39,7 +39,8 @@ module.exports = {
   search,
   getArtistAlbums,
   getArtistTopTracks,
-  getArtistDetails
+  getArtistDetails,
+  checkLibrary,
 };
 
 function login(req, res) {
@@ -642,6 +643,28 @@ function getArtistDetails(req, res) {
     });
 }
 
+function checkLibrary(req, res) {
+    User.findById(req.params.id, function(err, user) {
+        const headers = {
+            'Authorization': `Bearer ${user.spotifyToken}`,
+            'Content-Type': 'application/json'
+        };
+        
+        const options = {
+            url: `https://api.spotify.com/v1/me/tracks/contains?ids=${req.params.trackId}`,
+            method: 'GET',
+            headers: headers,
+        };
+        
+        function callback(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                parsed = JSON.parse(body);
+                res.send({contained: parsed[0]});
+            }
+        }
+        request(options, callback);
+    })
+}
 
 
 // Utility Functions

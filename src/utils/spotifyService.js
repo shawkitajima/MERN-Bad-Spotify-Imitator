@@ -21,6 +21,7 @@ module.exports = {
     getArtistAlbums,
     getArtistDetails,
     getArtistTopTracks,
+    checkLibrary,
 }
 
 function login(user) {
@@ -97,4 +98,8 @@ function getArtistDetails(user, artistId) {
 
 function getArtistTopTracks(user, artistId) {
     return fetch(BASE_URL + 'artists/tracks/' + user + '/' + artistId).then(res => res.json());
+}
+
+function checkLibrary(user, trackId) {
+    return fetch(BASE_URL + 'check/' + user + '/' + trackId).then(res => res.json());
 }

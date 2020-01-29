@@ -19,9 +19,10 @@ router.get('/delete/:id/:trackId', spotifyCtrl.deleteTrackFromLibrary);
 router.get('/devices/:id', spotifyCtrl.getAvailableDevices);
 router.get('/makeplaylist/:id', spotifyCtrl.makeCommunityPlaylist);
 router.get('/search/:id/:search', spotifyCtrl.search);
-router.get('/artists/details/:id/:artistId', spotifyCtrl.getArtistDetails)
-router.get('/artists/albums/:id/:artistId', spotifyCtrl.getArtistAlbums)
-router.get('/artists/tracks/:id/:artistId', spotifyCtrl.getArtistTopTracks)
+router.get('/artists/details/:id/:artistId', spotifyCtrl.getArtistDetails);
+router.get('/artists/albums/:id/:artistId', spotifyCtrl.getArtistAlbums);
+router.get('/artists/tracks/:id/:artistId', spotifyCtrl.getArtistTopTracks);
+router.get('/check/:id/:trackId', spotifyCtrl.checkLibrary);
 router.get('/callback', spotifyCtrl.callback);
 
 /*---------- Protected Routes ----------*/
