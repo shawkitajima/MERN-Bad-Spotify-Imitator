@@ -59,7 +59,17 @@ const TrackTableItem = props => {
             </Menu>
         </td>
         <td>{props.title}</td>
-        <td>{props.artist}</td>
+        <td>
+            <Link 
+                to={{
+                    pathname: '/artistDetail',
+                    artist: props.artistId
+                }}
+                style={{color: 'white'}}
+            >
+                {props.artist}
+            </Link>
+        </td>
         <td>
             <Link 
                 to={{

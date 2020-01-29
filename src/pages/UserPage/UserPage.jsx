@@ -17,6 +17,7 @@ import NavBar from '../../components/NavBar/NavBar';
 import AlbumDetailPage from '../AlbumDetailPage/AlbumDetailPage';
 import SpotifyLoginPage from '../SpotifyLoginPage/SpotifyLoginPage';
 import SearchPage from '../SearchPage/SearchPage';
+import ArtistPage from '../ArtistPage/ArtistPage';
 import './UserPage.css';
 
 const drawerWidth = 250;
@@ -162,6 +163,10 @@ const UserPage = (props) => {
                 }/>
                 <Route exact path='/search' render={({history}) => (
                     < SearchPage user={props.user} history={history} search={search} device={activeDevice} />
+                )
+                }/>
+                <Route exact path='/artistDetail' render={({history}) => (
+                    < ArtistPage user={props.user} history={history} device={activeDevice} />
                 )
                 }/>
             </Switch>

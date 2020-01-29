@@ -19,6 +19,7 @@ const TrackTable = props => {
                     {props.tracks.map((track, idx) => <TrackTableItem 
                         title={track.track}
                         artist={track.artist}
+                        artistId={track.artistId}
                         album={track.album}
                         albumId={track.albumId}
                         length={track.length}

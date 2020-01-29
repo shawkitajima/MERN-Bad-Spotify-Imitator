@@ -161,6 +161,7 @@ function getTracks(req, res) {
                     tracks.push({
                         track: track.track.name,
                         artist: track.track.album.artists.map(artist => artist.name).join(', '),
+                        artistId: track.track.album.artists[0].id,
                         album: track.track.album.name,
                         length: track.track.duration_ms,
                         uri: track.track.uri,
@@ -227,6 +228,7 @@ function getAlbumDetail(req, res) {
                     tracks.push({
                         track: track.name,
                         artist: track.artists.map(artist => artist.name).join(', '),
+                        artistId: track.artists[0].id,
                         album: parsed.name,
                         length: track.duration_ms,
                         uri: track.uri,
@@ -300,6 +302,7 @@ function getPlaylistDetail(req, res) {
                     tracks.push({
                         track: track.track.name,
                         artist: track.track.artists.map(artist => artist.name).join(', '),
+                        artistId: track.track.artists[0].id,
                         album: track.track.album.name,
                         length: track.track.duration_ms,
                         uri: track.track.uri,

@@ -39,12 +39,12 @@ const SearchPage = props => {
             <div className={styles.horiFlex}>
                 {results.artists.slice(0,4).map((artist, idx) =>
                         <div key={idx} className={styles.vertiFlex}>
-                            {/* <Link to={{
+                            <Link to={{
                                 pathname: '/artistDetail',
                                 artist: artist.id
-                            }}> */}
+                            }}>
                             <img src={artist.img} alt="sorry :(" />
-                            {/* </Link> */}
+                            </Link>
                             <h4>{artist.name}</h4>
                         </div>
                 )} 

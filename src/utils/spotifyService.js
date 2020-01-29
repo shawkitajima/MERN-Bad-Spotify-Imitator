@@ -18,6 +18,9 @@ module.exports = {
     makePlaylist,
     addToPlaylist,
     search,
+    getArtistAlbums,
+    getArtistDetails,
+    getArtistTopTracks,
 }
 
 function login(user) {
@@ -82,4 +85,16 @@ function addToPlaylist(user, playlistId, trackId) {
 
 function search(user, search) {
     return fetch(BASE_URL + 'search/' + user + '/' + search).then(res => res.json());
+}
+
+function getArtistAlbums(user, artistId) {
+    return fetch(BASE_URL + 'artists/albums/' + user + '/' + artistId).then(res => res.json());
+}
+
+function getArtistDetails(user, artistId) {
+    return fetch(BASE_URL + 'artists/details/' + user + '/' + artistId).then(res => res.json());
+}
+
+function getArtistTopTracks(user, artistId) {
+    return fetch(BASE_URL + 'artists/tracks/' + user + '/' + artistId).then(res => res.json());
 }
