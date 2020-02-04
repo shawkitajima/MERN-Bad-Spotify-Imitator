@@ -30,7 +30,7 @@ const TrackTableItem = props => {
     return (
     <tr>
         <td>
-            <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
+            <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick} style={{width: '2rem'}}>
                 <div style={{color: 'white'}}>...</div>
             </Button>
             <Menu
@@ -47,6 +47,7 @@ const TrackTableItem = props => {
                 {contains ? (
                     <MenuItem onClick={() => {
                         spotifyService.deleteTrackFromLibrary(props.user._id, props.trackId);
+                        handleClose();
                     }}>Remove From Library</MenuItem>
                 ) 
                 : 

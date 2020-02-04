@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import userService from '../../utils/userService';
 import styles from './LoginPage.module.css'
-import loginImage from './LoginImage.jpg';
+import loginImage from './LoginImage.png';
 
 class LoginPage extends Component {
   

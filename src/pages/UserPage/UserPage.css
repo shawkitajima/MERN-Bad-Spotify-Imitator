@@ -1,3 +1,14 @@
 body {
     background-color: '#282828';
 }
+
+.image {
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-right: 1rem;
+}
+
+.button {
+    width: 1.5rem;
+    height: 2rem;
+}

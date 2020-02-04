@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import SignupForm from '../../components/SignupForm/SignupForm';
 import styles from './SignupPage.module.css'
-import loginImage from '../LoginPage/LoginImage.jpg';
+import loginImage from '../LoginPage/LoginImage.png';
 
 class SignupPage extends Component {
   constructor(props) {

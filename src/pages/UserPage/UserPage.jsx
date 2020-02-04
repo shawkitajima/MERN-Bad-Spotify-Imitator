@@ -19,6 +19,10 @@ import SpotifyLoginPage from '../SpotifyLoginPage/SpotifyLoginPage';
 import SearchPage from '../SearchPage/SearchPage';
 import ArtistPage from '../ArtistPage/ArtistPage';
 import './UserPage.css';
+import musicImage from './Music.png';
+import music2Image from './Music2.png';
+import albumImage from './Album.png';
+import communityImage from './CommunityPlaylist.png'
 
 const drawerWidth = 250;
 
@@ -105,10 +109,10 @@ const UserPage = (props) => {
               </ListItem>
               <ListItem >
                 <TextField 
-                  id="outlined-basic" label="search..." variant="outlined" 
+                  id="outlined-basic" label="search..." variant="outlined" color='white'
                   onChange={evt => setSearch(evt.target.value)}
                 />
-                <Link to='/search'><Button variant="contained" color="transparent">Go</Button></Link>
+                <Link to='/search'><Button variant="contained" color="transparent" className='button'>Go</Button></Link>
               </ListItem>
               <ListItem>
                 Select Your Device: <select onChange={evt => setActiveDevice(evt.target.value)}>
@@ -119,12 +123,15 @@ const UserPage = (props) => {
                 </select>
               </ListItem>
               <ListItem button component={Link} to="/">
+                <img src={musicImage} alt="sorry" className="image"/>
                 <ListItemText primary='Songs' />
               </ListItem>
               <ListItem button component={Link} to="/albums">
+                <img src={albumImage} alt="sorry" className="image"/>
                 <ListItemText primary='Albums' />
               </ListItem>
               <ListItem button onClick={() => spotifyService.makePlaylist(props.user._id)}>
+                <img src={communityImage} alt="sorry" className="image"/>
                 <ListItemText primary='Make Community Playlist' />
               </ListItem>
           </List>
@@ -135,6 +142,7 @@ const UserPage = (props) => {
                   pathname: "/playlistDetail",
                   playlist: playlist
                   }} key={idx}>
+                <img src={music2Image} alt="sorry" className="image"/>
                 <ListItemText primary={playlist.title} />
               </ListItem>
             ))}

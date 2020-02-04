@@ -65,7 +65,7 @@ const SearchPage = props => {
                 )}
             </div>
             <h2>Tracks</h2>
-            <TrackTable tracks={results.tracks} user={props.user} device={props.device} src={props.src} />
+            <TrackTable tracks={results.tracks} user={props.user} device={props.device} />
         </>
     )
 };
